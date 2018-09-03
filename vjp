@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+STITLE=""
+DTITLE=""
+for i in "$@"
+do
+  TMPL=$(echo "$i" | tr '[:upper:]' '[:lower:]')
+  DTITLE+="-${TMPL}"
+  STITLE+=" ${i}"
+done
+DATE=`date +%Y-%m-%d`
+POST="${DATE}${DTITLE}.markdown"
+
+if [ -f ${POST} ]; then
+  echo "File already exists: ${POST}"
+  exit
+fi
+
+echo -e """---
+layout: post
+title: ${STITLE}
+date: \"${DATE}\"
+---
+
+""" >> ${POST}
+
+vim ${POST}
