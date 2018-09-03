@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 
-STITLE=""
-DTITLE=""
+FILE_TITLE=""
 for i in "$@"
 do
-  TMPL=$(echo "$i" | tr '[:upper:]' '[:lower:]')
-  DTITLE+="-${TMPL}"
-  STITLE+=" ${i}"
+  FILE_TITLE+="-$(echo "$i" | tr '[:upper:]' '[:lower:]')"
 done
-DATE=`date +%Y-%m-%d`
-POST="${DATE}${DTITLE}.markdown"
+
+POST="$(date +%Y-%m-%d)${FILE_TITLE}.markdown"
 
 if [ -f ${POST} ]; then
   echo "File already exists: ${POST}"
@@ -18,8 +15,8 @@ fi
 
 echo -e """---
 layout: post
-title: ${STITLE}
-date: \"${DATE}\"
+title: \"$@\"
+date: \"$(date +%Y-%m-%d\ %T\ %z)\"
 ---
 
 """ >> ${POST}
