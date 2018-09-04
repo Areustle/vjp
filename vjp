@@ -10,15 +10,14 @@ POST="$(date +%Y-%m-%d)${FILE_TITLE}.markdown"
 
 if [ -f ${POST} ]; then
   echo "File already exists: ${POST}"
-  exit
+else
+  echo -e """---
+  layout: post
+  title: \"$@\"
+  date: \"$(date +%Y-%m-%d\ %T\ %z)\"
+  ---
+
+  """ >> ${POST}
 fi
-
-echo -e """---
-layout: post
-title: \"$@\"
-date: \"$(date +%Y-%m-%d\ %T\ %z)\"
----
-
-""" >> ${POST}
 
 vim ${POST}
